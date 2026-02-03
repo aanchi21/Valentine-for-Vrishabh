@@ -14,14 +14,13 @@
     overflow: hidden;
   }
 
-  /* floating white hearts in background */
+  /* Floating white hearts background */
   .bg-heart {
     position: fixed;
     bottom: -20px;
     color: white;
     opacity: 0.25;
     animation: floatUp linear infinite;
-    font-size: 16px;
   }
 
   @keyframes floatUp {
@@ -81,7 +80,6 @@
     border: none;
     border-radius: 24px;
     cursor: pointer;
-    transition: transform 0.15s;
   }
 
   #yesBtn {
@@ -114,4 +112,121 @@
     margin-bottom: 14px;
   }
 
-  .yes-box
+  .yes-box p {
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .big-decor {
+    font-size: 32px;
+    margin-top: 18px;
+  }
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND HEARTS -->
+<script>
+  for (let i = 0; i < 28; i++) {
+    const h = document.createElement("div");
+    h.className = "bg-heart";
+    h.innerText = "🤍";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = 12 + Math.random() * 20 + "px";
+    h.style.animationDuration = 10 + Math.random() * 10 + "s";
+    document.body.appendChild(h);
+  }
+</script>
+
+<!-- QUESTION SCREEN -->
+<div id="questionScreen" class="screen">
+  <div class="card">
+    <div class="decor">💐 🌹 🧸 💍</div>
+    <h1>Vrishabh, will you be my Valentine? 💖</h1>
+    <div class="tease">go on… try saying no 😌</div>
+
+    <div class="buttons">
+      <button id="yesBtn">Yes 💕</button>
+      <button id="noBtn">No 🙈</button>
+    </div>
+
+    <div id="giveup" class="giveup"></div>
+  </div>
+</div>
+
+<!-- YES SCREEN -->
+<div id="yesScreen" class="screen hidden">
+  <div class="yes-box">
+    <h2>Hehe 😌💖</h2>
+
+    <p>
+      I knew you’d say yes — my love, my sunshine ☀️<br>
+      honestly… did you even have a choice?
+    </p>
+
+    <p>
+      Since last year you’ve compensated for all the
+      Valentine’s dates you missed with me,<br>
+      I’m lovingly burdening you with one more 😌✨
+    </p>
+
+    <p>
+      Congratulations 🎉<br>
+      you’re officially planning a beautiful Valentine date with me.
+    </p>
+
+    <p>
+      More details to follow 💌<br>
+      stay tuned, cutie 😘
+    </p>
+
+    <div class="big-decor">💖 💞 💗 💓</div>
+  </div>
+</div>
+
+<!-- YOUR UPLOADED SONG -->
+<audio id="song" preload="auto">
+  <source src="https://raw.githubusercontent.com/aanchi21/Valentine-for-Vrishabh/main/zara-zara.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const giveup = document.getElementById("giveup");
+  const song = document.getElementById("song");
+
+  const questionScreen = document.getElementById("questionScreen");
+  const yesScreen = document.getElementById("yesScreen");
+
+  let dodges = 0;
+
+  function moveNo() {
+    const maxX = 60;
+    const maxY = 20;
+
+    noBtn.style.transform =
+      `translate(${Math.random() * maxX - maxX / 2}px,
+                 ${Math.random() * maxY - maxY / 2}px)`;
+
+    if (navigator.vibrate) navigator.vibrate(25);
+
+    dodges++;
+    if (dodges === 4) {
+      giveup.innerText = "okay okay… I get it 😏";
+    }
+  }
+
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+
+  yesBtn.addEventListener("click", () => {
+    song.currentTime = 0;
+    song.play().catch(() => {});
+    questionScreen.classList.add("hidden");
+    yesScreen.classList.remove("hidden");
+  });
+</script>
+
+</body>
+</html>
