@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💕</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ffd1dc, #ffb6c1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: white;
+    padding: 26px 22px 34px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 360px;
+    position: relative;
+    z-index: 2;
+  }
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 22px;
+    color: #ff4d6d;
+  }
+
+  .buttons {
+    position: relative;
+    height: 140px;
+  }
+
+  button {
+    padding: 12px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    position: absolute;
+  }
+
+  #yesBtn {
+    background-color: #ff4d6d;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10px;
+  }
+
+  #noBtn {
+    background-color: #adb5bd;
+    color: white;
+    left: 20px;
+    top: 10px;
+  }
+
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -10px;
+    font-size: 18px;
+    animation: floatUp linear forwards;
+    color: #ff4d6d;
+    opacity: 0.8;
+  }
+
+  @keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+  }
+
+  /* Lyrics */
+  .lyrics {
+    position: fixed;
+    bottom: 18px;
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .lyrics span {
+    background: rgba(255, 77, 109, 0.35);
+    padding: 8px 16px;
+    border-radius: 20px;
+    display: inline-block;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Vrishabh, will you be my Valentine? 💖</h1>
+
+  <div class="buttons">
+    <button id="yesBtn">Yes 💕</button>
+    <button id="noBtn">No 🙈</button>
+  </div>
+</div>
+
+<audio id="song" loop>
+  <source src="https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Ed_Sheeran/Perfect/Ed_Sheeran_-_Perfect.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
+  const container = document.querySelector(".buttons");
+  const song = document.getElementById("song");
+
+  function moveNoButton() {
+    const maxX = container.clientWidth - noBtn.offsetWidth;
+    const maxY = container.clientHeight - noBtn.offsetHeight;
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
+  }
+
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
+
+  function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💗";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+
+  /* Lyrics timing */
+  const lyrics = [
+    { time: 5, text: "Baby, I'm dancing in the dark" },
+    { time: 12, text: "With you between my arms" },
+    { time: 20, text: "Barefoot on the grass" },
+    { time: 28, text: "Listening to our favourite song" },
+    { time: 38, text: "I have faith in what I see" },
+    { time: 46, text: "Now I know I have met an angel" },
+    { time: 55, text: "In person 💖" }
+  ];
+
+  let lyricIndex = 0;
+  const lyricBox = document.createElement("div");
+  lyricBox.className = "lyrics";
+  document.body.appendChild(lyricBox);
+
+  song.addEventListener("timeupdate", () => {
+    if (lyricIndex < lyrics.length && song.currentTime >= lyrics[lyricIndex].time) {
+      lyricBox.innerHTML = `<span>${lyrics[lyricIndex].text}</span>`;
+      lyricIndex++;
+    }
+  });
+
+  yesBtn.addEventListener("click", () => {
+    lyricIndex = 0;
+    song.play();
+    setInterval(createHeart, 280);
+
+    document.body.innerHTML = `
+      <div style="
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        text-align:center;
+        color:white;
+        padding:24px;
+        background:linear-gradient(135deg,#ffd1dc,#ffb6c1);
+      ">
+        <div style="max-width:420px;">
+          <h1 style="font-size:26px;">Hehe 😌💖</h1>
+          <p style="font-size:18px; line-height:1.6;">
+            I knew you’d click <b>Yes</b>, my love —  
+            my sunshine, my favourite human ☀️💗  
+            did you even have a choice?
+          </p>
+          <p style="font-size:18px; line-height:1.6;">
+            Since last year you compensated for all the Valentine’s dates
+            you missed with me…  
+            I’ve decided to lovingly <b>burden you with one more</b> 😌✨
+          </p>
+          <p style="font-size:18px;">
+            Congratulations 🎉  
+            you’re officially planning a beautiful Valentine date with me.
+          </p>
+          <p style="font-size:18px;">
+            More details to follow… 💌<br>
+            stay tuned, cutie 😘
+          </p>
+          <div style="font-size:30px;">💕 💗 💞 💓</div>
+        </div>
+      </div>
+    `;
+  });
+</script>
+
+</body>
+</html>
