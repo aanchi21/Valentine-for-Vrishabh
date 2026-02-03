@@ -31,11 +31,20 @@
 
   h1 {
     font-size: 22px;
-    margin-bottom: 22px;
+    margin-bottom: 10px;
     color: #ff4d6d;
   }
 
+  .tease {
+    font-size: 14px;
+    color: #ff6f91;
+    margin-bottom: 14px;
+  }
+
   .buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     position: relative;
     height: 140px;
   }
@@ -46,22 +55,18 @@
     border: none;
     border-radius: 25px;
     cursor: pointer;
-    position: absolute;
   }
 
   #yesBtn {
     background-color: #ff4d6d;
     color: white;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 10px;
   }
 
   #noBtn {
     background-color: #adb5bd;
     color: white;
-    left: 20px;
-    top: 10px;
+    position: absolute;
+    right: 20px;
   }
 
   /* Floating hearts */
@@ -103,6 +108,14 @@
     from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
   }
+
+  .giveup {
+    position: absolute;
+    bottom: -22px;
+    width: 100%;
+    font-size: 14px;
+    color: #ff6f91;
+  }
 </style>
 </head>
 
@@ -110,11 +123,14 @@
 
 <div class="card">
   <h1>Vrishabh, will you be my Valentine? 💖</h1>
+  <div class="tease">go on… try saying no 😌</div>
 
   <div class="buttons">
     <button id="yesBtn">Yes 💕</button>
     <button id="noBtn">No 🙈</button>
   </div>
+
+  <div id="giveupText" class="giveup"></div>
 </div>
 
 <audio id="song" loop>
@@ -126,12 +142,27 @@
   const yesBtn = document.getElementById("yesBtn");
   const container = document.querySelector(".buttons");
   const song = document.getElementById("song");
+  const giveupText = document.getElementById("giveupText");
+
+  let dodgeCount = 0;
 
   function moveNoButton() {
     const maxX = container.clientWidth - noBtn.offsetWidth;
     const maxY = container.clientHeight - noBtn.offsetHeight;
+
     noBtn.style.left = Math.random() * maxX + "px";
     noBtn.style.top = Math.random() * maxY + "px";
+
+    // Soft vibration (mobile only)
+    if (navigator.vibrate) {
+      navigator.vibrate(30);
+    }
+
+    dodgeCount++;
+
+    if (dodgeCount === 4) {
+      giveupText.innerText = "okay okay… I get it 😏";
+    }
   }
 
   noBtn.addEventListener("mouseenter", moveNoButton);
@@ -147,7 +178,6 @@
     setTimeout(() => heart.remove(), 6000);
   }
 
-  /* Lyrics timing */
   const lyrics = [
     { time: 5, text: "Baby, I'm dancing in the dark" },
     { time: 12, text: "With you between my arms" },
@@ -172,44 +202,51 @@
 
   yesBtn.addEventListener("click", () => {
     lyricIndex = 0;
-    song.play();
+    song.play().catch(() => {});
     setInterval(createHeart, 280);
 
-    document.body.innerHTML = `
-      <div style="
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        height:100vh;
-        text-align:center;
-        color:white;
-        padding:24px;
-        background:linear-gradient(135deg,#ffd1dc,#ffb6c1);
-      ">
-        <div style="max-width:420px;">
-          <h1 style="font-size:26px;">Hehe 😌💖</h1>
-          <p style="font-size:18px; line-height:1.6;">
-            I knew you’d click <b>Yes</b>, my love —  
-            my sunshine, my favourite human ☀️💗  
-            did you even have a choice?
-          </p>
-          <p style="font-size:18px; line-height:1.6;">
-            Since last year you compensated for all the Valentine’s dates
-            you missed with me…  
-            I’ve decided to lovingly <b>burden you with one more</b> 😌✨
-          </p>
-          <p style="font-size:18px;">
-            Congratulations 🎉  
-            you’re officially planning a beautiful Valentine date with me.
-          </p>
-          <p style="font-size:18px;">
-            More details to follow… 💌<br>
-            stay tuned, cutie 😘
-          </p>
-          <div style="font-size:30px;">💕 💗 💞 💓</div>
+    setTimeout(() => {
+      document.body.innerHTML = `
+        <div style="
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          height:100vh;
+          text-align:center;
+          color:white;
+          padding:24px;
+          background:linear-gradient(135deg,#ffd1dc,#ffb6c1);
+        ">
+          <div style="max-width:420px;">
+            <h1 style="font-size:26px;">Hehe 😌💖</h1>
+
+            <p style="font-size:18px; line-height:1.6;">
+              I knew you’d click <b>Yes</b>, my love —  
+              my sunshine, my favourite human ☀️💗  
+              did you even have a choice?
+            </p>
+
+            <p style="font-size:18px; line-height:1.6;">
+              Since last year you compensated for all the Valentine’s dates
+              you missed with me…  
+              I’ve decided to lovingly <b>burden you with one more</b> 😌✨
+            </p>
+
+            <p style="font-size:18px;">
+              Congratulations 🎉  
+              you’re officially planning a beautiful Valentine date with me.
+            </p>
+
+            <p style="font-size:18px;">
+              More details to follow… 💌<br>
+              stay tuned, cutie 😘
+            </p>
+
+            <div style="font-size:30px;">💕 💗 💞 💓</div>
+          </div>
         </div>
-      </div>
-    `;
+      `;
+    }, 300);
   });
 </script>
 
