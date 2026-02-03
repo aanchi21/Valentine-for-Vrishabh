@@ -205,4 +205,49 @@
     <p>Congratulations 🎉 you’re officially mine this Valentine.</p>
     <p>More details to follow… cutie 😘</p>
     <div class="big-decor">💖 💞 💗 💓</div>
-  </
+  </div>
+</div>
+
+<!-- AUDIO -->
+<audio id="song">
+  <source src="https://raw.githubusercontent.com/aanchi21/Valentine-for-Vrishabh/main/zara-zara.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const overlay = document.getElementById("overlay");
+  const song = document.getElementById("song");
+  const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const giveup = document.getElementById("giveup");
+  const questionScreen = document.getElementById("questionScreen");
+  const yesScreen = document.getElementById("yesScreen");
+
+  let dodges = 0;
+
+  // START MUSIC ON USER TAP (GUARANTEED)
+  overlay.addEventListener("click", () => {
+    song.play().catch(()=>{});
+    overlay.style.display = "none";
+  });
+
+  function moveNo() {
+    noBtn.style.transform =
+      `translate(${Math.random()*60 - 30}px, ${Math.random()*20 - 10}px)`;
+
+    if (navigator.vibrate) navigator.vibrate(25);
+
+    dodges++;
+    if (dodges === 4) giveup.innerText = "okay okay… I get it 😏";
+  }
+
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("touchstart", moveNo);
+
+  yesBtn.addEventListener("click", () => {
+    questionScreen.classList.add("hidden");
+    yesScreen.classList.remove("hidden");
+  });
+</script>
+
+</body>
+</html>
