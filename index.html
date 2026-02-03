@@ -15,39 +15,29 @@
   }
 
   /* TAP TO START OVERLAY */
-  .overlay {
+  #overlay {
     position: fixed;
     inset: 0;
-    background: rgba(179, 0, 45, 0.95);
+    background: rgba(179,0,45,0.96);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 9999;
     color: white;
     text-align: center;
   }
 
-  .overlay-box {
-    background: rgba(255,255,255,0.1);
-    padding: 30px 24px;
-    border-radius: 20px;
-    animation: pulse 1.5s infinite;
+  #overlay div {
+    background: rgba(255,255,255,0.12);
+    padding: 30px 26px;
+    border-radius: 22px;
+    animation: pulse 1.6s infinite;
   }
 
   @keyframes pulse {
     0% { transform: scale(1); }
-    50% { transform: scale(1.04); }
+    50% { transform: scale(1.05); }
     100% { transform: scale(1); }
-  }
-
-  .overlay-box h2 {
-    font-size: 22px;
-    margin-bottom: 12px;
-  }
-
-  .overlay-box p {
-    font-size: 16px;
-    opacity: 0.9;
   }
 
   /* floating hearts */
@@ -87,7 +77,7 @@
   h1 {
     font-size: 22px;
     color: #ff2f5e;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .tease {
@@ -133,6 +123,7 @@
     height: 18px;
   }
 
+  /* YES SCREEN */
   .yes-box {
     color: white;
     text-align: center;
@@ -160,8 +151,8 @@
 <body>
 
 <!-- OVERLAY -->
-<div id="overlay" class="overlay">
-  <div class="overlay-box">
+<div id="overlay">
+  <div>
     <h2>Hey Vrishabh 💕</h2>
     <p>Tap to begin…</p>
     <p>🎶</p>
@@ -182,7 +173,7 @@
 </script>
 
 <!-- QUESTION SCREEN -->
-<div id="questionScreen" class="screen">
+<div id="questionScreen" class="screen hidden">
   <div class="card">
     <div class="decor">💐 🌹 🧸 💍</div>
     <h1>Vrishabh, will you be my Valentine? 💖</h1>
@@ -201,9 +192,29 @@
 <div id="yesScreen" class="screen hidden">
   <div class="yes-box">
     <h2>Hehe 😌💖</h2>
-    <p>I knew you’d say yes, my sunshine ☀️</p>
-    <p>Congratulations 🎉 you’re officially mine this Valentine.</p>
-    <p>More details to follow… cutie 😘</p>
+
+    <p>
+      I knew you’d click <b>Yes</b>, my love —  
+      my sunshine, my favourite human ☀️💗  
+      did you even have a choice?
+    </p>
+
+    <p>
+      Since last year you compensated for all the Valentine’s
+      dates you missed with me…  
+      I’ve decided to lovingly <b>burden you with one more</b> 😌✨
+    </p>
+
+    <p>
+      Congratulations 🎉  
+      you’re officially planning a <b>beautiful Valentine date with me</b>.
+    </p>
+
+    <p>
+      More details to follow… 💌<br>
+      stay tuned, cutie 😘
+    </p>
+
     <div class="big-decor">💖 💞 💗 💓</div>
   </div>
 </div>
@@ -216,18 +227,19 @@
 <script>
   const overlay = document.getElementById("overlay");
   const song = document.getElementById("song");
+  const questionScreen = document.getElementById("questionScreen");
+  const yesScreen = document.getElementById("yesScreen");
   const yesBtn = document.getElementById("yesBtn");
   const noBtn = document.getElementById("noBtn");
   const giveup = document.getElementById("giveup");
-  const questionScreen = document.getElementById("questionScreen");
-  const yesScreen = document.getElementById("yesScreen");
 
   let dodges = 0;
 
-  // START MUSIC ON USER TAP (GUARANTEED)
+  // START MUSIC + SHOW FIRST SCREEN
   overlay.addEventListener("click", () => {
     song.play().catch(()=>{});
     overlay.style.display = "none";
+    questionScreen.classList.remove("hidden");
   });
 
   function moveNo() {
