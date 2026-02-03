@@ -14,7 +14,6 @@
     overflow: hidden;
   }
 
-  /* Floating white hearts background */
   .bg-heart {
     position: fixed;
     bottom: -20px;
@@ -65,7 +64,6 @@
     margin-bottom: 10px;
   }
 
-  /* PERFECTLY CENTERED BUTTONS */
   .buttons {
     display: flex;
     justify-content: center;
@@ -99,7 +97,6 @@
     height: 18px;
   }
 
-  /* YES SCREEN */
   .yes-box {
     color: white;
     text-align: center;
@@ -126,7 +123,7 @@
 
 <body>
 
-<!-- BACKGROUND HEARTS -->
+<!-- floating hearts -->
 <script>
   for (let i = 0; i < 28; i++) {
     const h = document.createElement("div");
@@ -185,8 +182,8 @@
   </div>
 </div>
 
-<!-- YOUR UPLOADED SONG -->
-<audio id="song" preload="auto">
+<!-- AUDIO -->
+<audio id="song" preload="auto" muted>
   <source src="https://raw.githubusercontent.com/aanchi21/Valentine-for-Vrishabh/main/zara-zara.mp3" type="audio/mpeg">
 </audio>
 
@@ -200,6 +197,23 @@
   const yesScreen = document.getElementById("yesScreen");
 
   let dodges = 0;
+  let unmuted = false;
+
+  // autoplay muted on load
+  window.addEventListener("load", () => {
+    song.play().catch(() => {});
+  });
+
+  // unmute on FIRST interaction anywhere
+  function unmuteSong() {
+    if (!unmuted) {
+      song.muted = false;
+      unmuted = true;
+    }
+  }
+
+  document.body.addEventListener("click", unmuteSong, { once: true });
+  document.body.addEventListener("touchstart", unmuteSong, { once: true });
 
   function moveNo() {
     const maxX = 60;
@@ -221,8 +235,7 @@
   noBtn.addEventListener("touchstart", moveNo);
 
   yesBtn.addEventListener("click", () => {
-    song.currentTime = 0;
-    song.play().catch(() => {});
+    unmuteSong();
     questionScreen.classList.add("hidden");
     yesScreen.classList.remove("hidden");
   });
