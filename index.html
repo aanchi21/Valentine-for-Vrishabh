@@ -14,6 +14,43 @@
     overflow: hidden;
   }
 
+  /* TAP TO START OVERLAY */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(179, 0, 45, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    color: white;
+    text-align: center;
+  }
+
+  .overlay-box {
+    background: rgba(255,255,255,0.1);
+    padding: 30px 24px;
+    border-radius: 20px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
+  .overlay-box h2 {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .overlay-box p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+
+  /* floating hearts */
   .bg-heart {
     position: fixed;
     bottom: -20px;
@@ -68,7 +105,6 @@
     display: flex;
     justify-content: center;
     gap: 24px;
-    margin-top: 10px;
   }
 
   button {
@@ -123,9 +159,18 @@
 
 <body>
 
+<!-- OVERLAY -->
+<div id="overlay" class="overlay">
+  <div class="overlay-box">
+    <h2>Hey Vrishabh 💕</h2>
+    <p>Tap to begin…</p>
+    <p>🎶</p>
+  </div>
+</div>
+
 <!-- floating hearts -->
 <script>
-  for (let i = 0; i < 28; i++) {
+  for (let i = 0; i < 26; i++) {
     const h = document.createElement("div");
     h.className = "bg-heart";
     h.innerText = "🤍";
@@ -156,90 +201,8 @@
 <div id="yesScreen" class="screen hidden">
   <div class="yes-box">
     <h2>Hehe 😌💖</h2>
-
-    <p>
-      I knew you’d say yes — my love, my sunshine ☀️<br>
-      honestly… did you even have a choice?
-    </p>
-
-    <p>
-      Since last year you’ve compensated for all the
-      Valentine’s dates you missed with me,<br>
-      I’m lovingly burdening you with one more 😌✨
-    </p>
-
-    <p>
-      Congratulations 🎉<br>
-      you’re officially planning a beautiful Valentine date with me.
-    </p>
-
-    <p>
-      More details to follow 💌<br>
-      stay tuned, cutie 😘
-    </p>
-
+    <p>I knew you’d say yes, my sunshine ☀️</p>
+    <p>Congratulations 🎉 you’re officially mine this Valentine.</p>
+    <p>More details to follow… cutie 😘</p>
     <div class="big-decor">💖 💞 💗 💓</div>
-  </div>
-</div>
-
-<!-- AUDIO -->
-<audio id="song" preload="auto" muted>
-  <source src="https://raw.githubusercontent.com/aanchi21/Valentine-for-Vrishabh/main/zara-zara.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const giveup = document.getElementById("giveup");
-  const song = document.getElementById("song");
-
-  const questionScreen = document.getElementById("questionScreen");
-  const yesScreen = document.getElementById("yesScreen");
-
-  let dodges = 0;
-  let unmuted = false;
-
-  // autoplay muted on load
-  window.addEventListener("load", () => {
-    song.play().catch(() => {});
-  });
-
-  // unmute on FIRST interaction anywhere
-  function unmuteSong() {
-    if (!unmuted) {
-      song.muted = false;
-      unmuted = true;
-    }
-  }
-
-  document.body.addEventListener("click", unmuteSong, { once: true });
-  document.body.addEventListener("touchstart", unmuteSong, { once: true });
-
-  function moveNo() {
-    const maxX = 60;
-    const maxY = 20;
-
-    noBtn.style.transform =
-      `translate(${Math.random() * maxX - maxX / 2}px,
-                 ${Math.random() * maxY - maxY / 2}px)`;
-
-    if (navigator.vibrate) navigator.vibrate(25);
-
-    dodges++;
-    if (dodges === 4) {
-      giveup.innerText = "okay okay… I get it 😏";
-    }
-  }
-
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
-
-  yesBtn.addEventListener("click", () => {
-    unmuteSong();
-    questionScreen.classList.add("hidden");
-    yesScreen.classList.remove("hidden");
-  });
-</script>
-
-</body>
-</html>
+  </
