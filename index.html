@@ -10,21 +10,21 @@
     margin: 0;
     height: 100vh;
     background: radial-gradient(circle at top, #ff4d6d, #b3002d);
-    overflow: hidden;
     font-family: Arial, sans-serif;
+    overflow: hidden;
   }
 
-  /* Floating background hearts */
+  /* floating white hearts in background */
   .bg-heart {
     position: fixed;
     bottom: -20px;
     color: white;
     opacity: 0.25;
-    animation: bgFloat linear infinite;
+    animation: floatUp linear infinite;
     font-size: 16px;
   }
 
-  @keyframes bgFloat {
+  @keyframes floatUp {
     from { transform: translateY(0); }
     to { transform: translateY(-120vh); }
   }
@@ -47,7 +47,6 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.35);
     width: 90%;
     max-width: 360px;
-    position: relative;
   }
 
   h1 {
@@ -67,21 +66,22 @@
     margin-bottom: 10px;
   }
 
+  /* PERFECTLY CENTERED BUTTONS */
   .buttons {
     display: flex;
     justify-content: center;
-    gap: 22px;
-    position: relative;
-    height: 70px;
+    gap: 24px;
+    margin-top: 10px;
   }
 
   button {
-    width: 110px;
-    height: 42px;
+    width: 120px;
+    height: 44px;
     font-size: 16px;
     border: none;
     border-radius: 24px;
     cursor: pointer;
+    transition: transform 0.15s;
   }
 
   #yesBtn {
@@ -90,16 +90,14 @@
   }
 
   #noBtn {
-    background: #c4c4c4;
+    background: #bfbfbf;
     color: white;
-    position: absolute;
-    right: 0;
   }
 
   .giveup {
     font-size: 14px;
     color: #ff5f8a;
-    margin-top: 12px;
+    margin-top: 14px;
     height: 18px;
   }
 
@@ -116,160 +114,4 @@
     margin-bottom: 14px;
   }
 
-  .yes-box p {
-    font-size: 18px;
-    line-height: 1.6;
-  }
-
-  .big-decor {
-    font-size: 32px;
-    margin-top: 18px;
-  }
-
-  /* Lyrics */
-  .lyrics {
-    position: fixed;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    font-size: 16px;
-    color: white;
-    pointer-events: none;
-  }
-
-  .lyrics span {
-    background: rgba(0,0,0,0.35);
-    padding: 8px 18px;
-    border-radius: 20px;
-    display: inline-block;
-    animation: fadeIn 0.6s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-</style>
-</head>
-
-<body>
-
-<!-- BACKGROUND HEARTS -->
-<script>
-  for (let i = 0; i < 30; i++) {
-    const h = document.createElement("div");
-    h.className = "bg-heart";
-    h.innerText = "🤍";
-    h.style.left = Math.random() * 100 + "vw";
-    h.style.fontSize = 12 + Math.random() * 20 + "px";
-    h.style.animationDuration = 10 + Math.random() * 10 + "s";
-    document.body.appendChild(h);
-  }
-</script>
-
-<!-- QUESTION SCREEN -->
-<div id="questionScreen" class="screen">
-  <div class="card">
-    <div class="decor">💐 🌹 🧸 💍</div>
-    <h1>Vrishabh, will you be my Valentine? 💖</h1>
-    <div class="tease">go on… try saying no 😌</div>
-
-    <div class="buttons">
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No 🙈</button>
-    </div>
-
-    <div id="giveup" class="giveup"></div>
-  </div>
-</div>
-
-<!-- YES SCREEN -->
-<div id="yesScreen" class="screen hidden">
-  <div class="yes-box">
-    <h2>Hehe 😌💖</h2>
-
-    <p>
-      I knew you’d say yes — my love, my sunshine ☀️<br>
-      honestly… did you even have a choice?
-    </p>
-
-    <p>
-      Since last year you’ve compensated for all the
-      Valentine’s dates you missed with me,<br>
-      I’m lovingly burdening you with one more 😌✨
-    </p>
-
-    <p>
-      Congratulations 🎉<br>
-      you’re officially planning a beautiful Valentine date with me.
-    </p>
-
-    <p>
-      More details to follow 💌<br>
-      stay tuned, cutie 😘
-    </p>
-
-    <div class="big-decor">💖 💞 💗 💓</div>
-  </div>
-</div>
-
-<!-- AUDIO -->
-<audio id="song">
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
-</audio>
-
-<div id="lyrics" class="lyrics"></div>
-
-<script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const giveup = document.getElementById("giveup");
-  const song = document.getElementById("song");
-  const lyricsBox = document.getElementById("lyrics");
-
-  const questionScreen = document.getElementById("questionScreen");
-  const yesScreen = document.getElementById("yesScreen");
-
-  let dodges = 0;
-
-  function moveNo() {
-    const parent = noBtn.parentElement;
-    const maxX = parent.clientWidth - noBtn.offsetWidth;
-    const maxY = parent.clientHeight - noBtn.offsetHeight;
-
-    noBtn.style.left = Math.random() * maxX + "px";
-    noBtn.style.top = Math.random() * maxY + "px";
-
-    if (navigator.vibrate) navigator.vibrate(25);
-
-    dodges++;
-    if (dodges === 4) giveup.innerText = "okay okay… I get it 😏";
-  }
-
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("touchstart", moveNo);
-
-  const lyrics = [
-    { t: 5, l: "Dancing in the dark…" },
-    { t: 14, l: "With you right here 💕" },
-    { t: 24, l: "Every moment feels like us" },
-    { t: 34, l: "This song, this night, this love ✨" }
-  ];
-  let li = 0;
-
-  song.addEventListener("timeupdate", () => {
-    if (li < lyrics.length && song.currentTime >= lyrics[li].t) {
-      lyricsBox.innerHTML = `<span>${lyrics[li].l}</span>`;
-      li++;
-    }
-  });
-
-  yesBtn.addEventListener("click", () => {
-    song.play().catch(()=>{});
-    questionScreen.classList.add("hidden");
-    yesScreen.classList.remove("hidden");
-  });
-</script>
-
-</body>
-</html>
+  .yes-box
